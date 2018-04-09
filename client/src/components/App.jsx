@@ -99,8 +99,17 @@ class App extends React.Component {
     // fetch moviedata from server -> server gets info from API 
     fetchData(keyword){
 
+        let defaultData = {
+            title: keyword,
+            release_date: '',
+            poster_path: '',
+            vote_average: 7,
+            vote_count: 777,
+            overview: 'Testing'
+        }
+
         fetch('/api/movies', {
-            body: JSON.stringify({keyword}),
+            body: JSON.stringify(defaultData),
             headers: {'Content-Type': 'application/json'}, // must match with 'content-type' header
             method: 'POST'
             })

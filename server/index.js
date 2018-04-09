@@ -22,12 +22,15 @@ app.use(express.static(path.join(__dirname, '../client')));
 // handle POST request
 app.post('/api/movies', (req, res)=> {
     console.log('Respond for POST request: ', req.body);
+    
     // In order to request info to API, need a request module
 
     // api.searchMovieData({keyword: req.body}, (data)=>{
     //     console.log('Data from API: ', data);
     // });
 
+    // Inserting movie title to DB 
+    db.addNewMovie(req.body);
     res.send(req.body);
 });
 

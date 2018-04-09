@@ -1,7 +1,5 @@
 import React from 'react';
 
-const database = require('../../../db/index.js');
-
 
 // API handler from the movie DB
 
@@ -19,9 +17,6 @@ var searchMovieData = ({key='1d95e5c2dbf4820f2926e53a28b5bde9', keyword=''}, cal
         data: movieData,
         success: data => {
             callback(data.results);
-
-            // Add movie data to DB 
-            database.addNewMovie(data.results);
             console.log('GET request success! Data from API: ', data);
         },
         error: error => {
