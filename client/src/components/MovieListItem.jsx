@@ -1,8 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import {ButtonToolbar, Button, Collapse, Well} from 'react-bootstrap';
 
-import App from './App.jsx';
+import {ButtonToolbar, Button, Collapse, Well} from 'react-bootstrap';
 import MovieList from './MovieList.jsx';
 
 // var ButtonToolbar = ReactBootstrap.ButtonToolbar;
@@ -58,7 +56,7 @@ class MovieListItem extends React.Component {
                         <Well>
                             Released Date: {this.props.movie.release_date} <br/>
                             {/* Runtime: {this.props.movie.Runtime} <br/>                 
-                            Metascore: {this.props.movie.Metascore} <br/>                           */}
+                            Metascore: {this.props.movie.Metascore} <br/>*/}
                             imdbRating: {this.props.movie.vote_average} <br/>   
                             Total Votes: {this.props.movie.vote_count} <br />
                             Overview: {this.props.movie.overview}                     

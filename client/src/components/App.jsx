@@ -1,6 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-// import {ButtonToolbar, Button, Collapse, Well} from 'react-bootstrap';
 
 import AddMovie from './AddMovie.jsx';
 import MovieList from './MovieList.jsx';
@@ -46,6 +44,7 @@ class App extends React.Component {
     }
     
 
+    // Handling search movies on the list
     handleSearch(event){
         event.preventDefault();
         this.setState({keyword: event.target.value});
@@ -63,6 +62,7 @@ class App extends React.Component {
         }
     }
 
+    // Handling Adding new movie to the list
     handleAdd(event){
         event.preventDefault();
         this.setState({movie: {title: event.target.value, Year: 2018, Runtime: '107min', Metascore: 46, imdbRating: 6.2, Watched: this.state.movie.Watched}});
@@ -74,11 +74,15 @@ class App extends React.Component {
         // this.setState({movies: this.state.movies.concat(this.state.movie)});;
         
         // To fetch movie API data  
-        this.searchMovieData({keyword: this.state.movie.title}, (data)=>{
+        this.props.searchAPI({keyword: this.state.movie.title}, (data)=>{
             this.setState({movies: this.state.movies.concat(data)});
         });
+
+        this.fetchData(this.state.movie.title);
     }
 
+
+    // Handling Watch - To watch toggling  
     handleWatch(event){
         console.log(event);
         console.log('handlewatch');
@@ -91,28 +95,22 @@ class App extends React.Component {
         // produce a new object rather than mutating original 
     }
 
-    searchMovieData ({key='1d95e5c2dbf4820f2926e53a28b5bde9', keyword='Mean Girls'}, callback) {
-   
-        var movieData = {
-            api_key: key,
-            query: keyword
-        };
     
-        $.ajax({
-            url: 'https://api.themoviedb.org/3/search/movie?api_key=',
-            type: 'GET',
-            contentType: 'application/json',
-            data: movieData,
-            success: data => {
-                console.log(data);
-                callback(data.results);
-                console.log('Data sent!');
+    // fetch moviedata from server -> server gets info from API 
+    fetchData(keyword){
+
+        fetch('/api/movies', {
+            body: JSON.stringify({keyword}),
+            headers: {'Content-Type': 'application/json'}, // must match with 'content-type' header
+            method: 'POST'
+            })
+            .then(res => res.json()) // parse responses to JSON
+            .then(result => {
+                console.log('GET request to the server success! Data: ', result);
             },
-            error: data => {
-                console.log('Errrrrrrrrrr');
-            }
-        });
-    
+            (error) => {
+                console.log('GET request failed. Error: ', error);
+            })
     }
 
 

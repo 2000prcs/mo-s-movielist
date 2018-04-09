@@ -1,8 +1,11 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+
+const database = require('../../../db/index.js');
 
 
-var searchMovieData = ({key='1d95e5c2dbf4820f2926e53a28b5bde9', keyword='Mean Girls'}, callback) => {
+// API handler from the movie DB
+
+var searchMovieData = ({key='1d95e5c2dbf4820f2926e53a28b5bde9', keyword=''}, callback) => {
    
     var movieData = {
         api_key: key,
@@ -15,12 +18,14 @@ var searchMovieData = ({key='1d95e5c2dbf4820f2926e53a28b5bde9', keyword='Mean Gi
         contentType: 'application/json',
         data: movieData,
         success: data => {
-            console.log(data);
             callback(data.results);
-            console.log('Data sent!');
+
+            // Add movie data to DB 
+            database.addNewMovie(data.results);
+            console.log('GET request success! Data from API: ', data);
         },
-        error: data => {
-            console.log('Errrrrrrrrrr');
+        error: error => {
+            console.log('Errrrrrrrrrr', error);
         }
     });
 
@@ -28,4 +33,4 @@ var searchMovieData = ({key='1d95e5c2dbf4820f2926e53a28b5bde9', keyword='Mean Gi
 
 // window.searchMovieData = searchMovieData;
 
-//export default searchMovieData;
+export default searchMovieData;

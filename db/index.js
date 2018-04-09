@@ -29,6 +29,7 @@ let addNewMovie = (data) => {
     VALUES ("${data.title}", "${data.release_date}", "${data.poster_path}", ${data.vote_average}, 
     ${data.vote_count}, "${data.overview}")`;
     
+    console.log('Data in the DB! : ', data);
     // optionally make your own promise
     // abstract this into a helper function and promisify all your queries!
     return new Promise((resolve, reject)=> {

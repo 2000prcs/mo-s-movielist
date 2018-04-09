@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import App from './components/App.jsx';
-//import searchMovieData from './components/App.jsx';
+import SearchMovieData from './components/SearchMovieData.jsx';
 
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(<App searchAPI={SearchMovieData} />, document.getElementById('app'));
 
