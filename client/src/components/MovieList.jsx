@@ -6,7 +6,12 @@ import MovieListItem from './MovieListItem.jsx';
 var MovieList = (props) => ( 
 
     <ul className="list-group">
-        {_.map(props.movies, (movie) => <MovieListItem movie={movie} key={movie.id} handleWatch={()=>props.handleWatch(movie.id)}/>)}
+        {_.map(props.movies, (movie) => {
+        // give each movie a property of 'watched'
+        let newMovie = movie;
+        newMovie.Watched = false;
+        return <MovieListItem movie={movie} key={movie.id} handleWatch={()=>props.handleWatch(movie.id)}/>
+        })}
 
     </ul>
 );

@@ -7,13 +7,6 @@ import SearchMovie from './SearchMovie.jsx';
 
 class App extends React.Component {
     constructor(props){
-        // var movies = [
-        //     {title: 'Mean Girls'},
-        //     {title: 'Hackers'},
-        //     {title: 'The Grey'},
-        //     {title: 'Sunshine'},
-        //     {title: 'Ex Machina'},
-        //   ];
         var movieDataExample = [{
             title: '',
             description: '',
@@ -65,6 +58,7 @@ class App extends React.Component {
     // Handling Adding new movie to the list
     handleAdd(event){
         event.preventDefault();
+        // set a fake movie data as default
         this.setState({movie: {title: event.target.value, Year: 2018, Runtime: '107min', Metascore: 46, imdbRating: 6.2, Watched: this.state.movie.Watched}});
     }
 
@@ -84,8 +78,7 @@ class App extends React.Component {
 
     // Handling Watch - To watch toggling  
     handleWatch(event){
-        console.log(event);
-        console.log('handlewatch');
+        console.log('Event from handlewatch: ', event);
         var movie = this.state.movie;
         movie.Watched = !movie.Watched;
         this.setState({movie: movie});
@@ -99,6 +92,7 @@ class App extends React.Component {
     // fetch moviedata from server -> server gets info from API 
     fetchData(keyword){
 
+        // Test data for DB query
         let defaultData = {
             title: keyword,
             release_date: '',
