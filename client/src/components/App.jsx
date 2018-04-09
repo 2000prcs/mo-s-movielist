@@ -22,18 +22,17 @@ class App extends React.Component {
             // pass movies as an object 
             // object.assign to make a new object not mutate
             movies: [],
+            watchMovies: [],
             movie: {
-                title: '',
-                Watched: false
-            },
-            isWatched: false
+                title: ''
+            }
         };
         // this binding is necessary to make 'this' work in the callback
         this.searchClick = this.searchClick.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
         this.handleAdd = this.handleAdd.bind(this);
         this.addMovieClick = this.addMovieClick.bind(this);
-        this.handleWatch = this.handleWatch.bind(this);
+        this.isWatched = this.isWatched.bind(this);
     }
     
 
@@ -56,10 +55,11 @@ class App extends React.Component {
     }
 
     // Handling Adding new movie to the list
+    // TO DO : if it's a same movie title, don't search it and alert user
     handleAdd(event){
         event.preventDefault();
         // set a fake movie data as default
-        this.setState({movie: {title: event.target.value, Year: 2018, Runtime: '107min', Metascore: 46, imdbRating: 6.2, Watched: this.state.movie.Watched}});
+        this.setState({movie: {title: event.target.value}});
     }
 
     addMovieClick(event){
@@ -70,22 +70,38 @@ class App extends React.Component {
         // To fetch movie API data  
         this.props.searchAPI({keyword: this.state.movie.title}, (data)=>{
             this.setState({movies: this.state.movies.concat(data)});
+            // make a copy of original movies array for watch toggle... (better way?)
+            this.setState({watchMovies: this.state.movies});
         });
 
         this.fetchData(this.state.movie.title);
     }
 
 
-    // Handling Watch - To watch toggling  
-    handleWatch(event){
-        console.log('Event from handlewatch: ', event);
-        var movie = this.state.movie;
-        movie.Watched = !movie.Watched;
-        this.setState({movie: movie});
+    // Sort by Watched / To Watch 
+    isWatched(bool){
         // event is now the unique movie id
         // iterate through movies array to find the movie id and toggle the watched property 
         // use setstate to trigger new rendering 
         // produce a new object rather than mutating original 
+
+        // iterating through 'copy' array to check each movie's 'Watched' property
+        let watchedMovies = [];
+        let toWatchMovies = [];
+        this.state.watchMovies.forEach((movie)=>{
+                console.log(movie);
+                if(movie.Watched === true){
+                    watchedMovies.push(movie);
+                } else if (movie.Watched === false) {
+                    toWatchMovies.push(movie);
+                }
+        }); 
+
+        if (bool === true){
+            this.setState({movies: watchedMovies});
+        } else if (bool === false) {
+            this.setState({movies: toWatchMovies});
+        }
     }
 
     
@@ -124,6 +140,9 @@ class App extends React.Component {
         //     return movie.indexOf(this.state.keyword) !== -1; 
         // });
 
+
+        // TO DO : make a button 'show all' to show all movie titles entered
+        
         return (
             <div>
                 <div className="jumbotron jumbotron-fluid">
@@ -132,8 +151,8 @@ class App extends React.Component {
                     </div>
                 </div>
                 <div>
-                    <button type="button" className="btn btn-success" data-toggle="button" aria-pressed="false" onClick={this.isWatched}>Watched</button>
-                    <button type="button" className="btn btn-warning" data-toggle="button" aria-pressed="false" onClick={this.isToWatch}>To Watch</button>
+                    <button type="button" className="btn btn-success" data-toggle="button" aria-pressed="false" onClick={()=>this.isWatched(true)}>Watched</button>
+                    <button type="button" className="btn btn-warning" data-toggle="button" aria-pressed="false" onClick={()=>this.isWatched(false)}>To Watch</button>
                 </div>
                 <nav className="navbar navbar-light">
                     <div className="col-md-6 offset-md-3">

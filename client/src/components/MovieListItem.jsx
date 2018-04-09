@@ -18,7 +18,6 @@ class MovieListItem extends React.Component {
 
     watchToggle(e, movie){
         e.preventDefault();
-        console.log(e, movie);
         movie = this.props.movie;
         movie.Watched = !movie.Watched;
         this.setState({movie: movie});
